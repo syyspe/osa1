@@ -48,7 +48,7 @@ const Statistic = (props) => {
 
 const Button = (props) => {
     return (
-        <button onClick={props.kasittelija}>{props.teksti}</button>
+        <button onClick={props.kasittelija(props.id)}>{props.teksti}</button>
     )
 }
 
@@ -61,19 +61,7 @@ class App extends React.Component {
             huono: 0
         }
     }
-
-    hyva() {
-        this.setState({hyva: this.state.hyva + 1})
-    }
-
-    neutraali() {
-        this.setState({neutraali: this.state.neutraali + 1})
-    }
-
-    huono() {
-        this.setState({huono: this.state.huono + 1})
-    }
-
+    
     palautteita() {
         return this.state.hyva + this.state.neutraali + this.state.huono
     }
@@ -93,28 +81,33 @@ class App extends React.Component {
 
     }
 
-    render () {
+    kasittelija = (button) => {
+        if (button === "hyva") {
+            return () => this.setState({hyva: this.state.hyva + 1})
+        } else if (button === "neutraali") {
+            return () => this.setState({neutraali: this.state.neutraali + 1})
+        } else if (button === "huono") {
+            return () => this.setState({huono: this.state.huono + 1})
+        }
+
+    }
+
+  
+   render () {
         return (
             <div>
                 <Otsikko teksti="Anna palautetta" />
-                <Button teksti="Hyvä" kasittelija={this.hyva.bind(this)}/>
-                <Button teksti="Neutraali" kasittelija={this.neutraali.bind(this)}/>
-                <Button teksti="Huono" kasittelija={this.huono.bind(this)}/>
-                <Statistics hyva={this.state.hyva} neutraali={this.state.neutraali} 
-                huono={this.state.huono} keskiarvo={this.keskiarvo()} positiivisia={this.positiivisia()}/>
+                <Button teksti="Hyvä" kasittelija={this.kasittelija} id="hyva" />
+                <Button teksti="Neutraali" kasittelija={this.kasittelija} id="neutraali" />
+                <Button teksti="Huono" kasittelija={this.kasittelija} id="huono" />
+                <Statistics 
+                hyva={this.state.hyva} 
+                neutraali={this.state.neutraali} 
+                huono={this.state.huono} keskiarvo={this.keskiarvo()} positiivisia={this.positiivisia()} />
             </div>
         )
     }
 }
-
-/*
-const App = () => {
-    return (
-        <div>
-            <Otsikko teksti="Anna palautetta" />    
-        </div>
-    )
-} */
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
