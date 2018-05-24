@@ -8,6 +8,7 @@ const Otsikko = (props) => {
     )
 }
 
+
 const Statistics = (props) => {
     if (props.hyva === 0 && props.neutraali === 0 && props.huono === 0) {
         return (
@@ -61,7 +62,7 @@ class App extends React.Component {
             huono: 0
         }
     }
-    
+
     palautteita() {
         return this.state.hyva + this.state.neutraali + this.state.huono
     }
